@@ -1,0 +1,14 @@
+canvas {
+    border: 2px solid purple;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    background-color: black;
+}
+body {
+    background-image: url('bg.jpg');
+    background-size: cover;
+}
