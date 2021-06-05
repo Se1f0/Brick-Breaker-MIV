@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'astro';
+    src: url(font/SpaceQuest-Xj4o.ttf);
+}
+
+/* * {
+    font-family: astro;
+    letter-spacing: 2px;
+    color: yellow;
+    font-size: 20px;
+} */
+
+body {
+    background-image: url('bg.jpg');
+    background-size: cover;
+}
+
 canvas {
     border: 2px solid purple;
     position: absolute;
@@ -7,8 +24,5 @@ canvas {
     bottom: 0px;
     margin: auto;
     background-color: black;
-}
-body {
-    background-image: url('bg.jpg');
-    background-size: cover;
+    letter-spacing: 2px;
 }
