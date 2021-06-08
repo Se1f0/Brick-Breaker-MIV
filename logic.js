@@ -1,27 +1,3 @@
-var canv = document.getElementById('Brick') ;
-var ctx = canv.getContext('2d');
-
-var srcXpad = 25;
-var srcYpad = 179;
-var srcWidthPad = 463;
-var srcHeightPad = 101;
-var padWidth = 100;
-var padHeight = 20;
-var padSpace = 50;
-
-var ballRadius = 8.5;
-
-var count = 0;
-var score = 0;
-var level = 1;
-var over = false;
-
-let chance = 3;
-let left = false;
-let right = false;
-let objects = [];
-let colors = ["blue","green","pink","violet","yellow"];
-
 //class de la raquette
 const pad = {
     x : canv.width / 2 - padWidth / 2,
@@ -30,7 +6,6 @@ const pad = {
     height : padHeight,
     dx : 5
 }
-
 //class de la balle
 const ball = {
     x : canv.width / 2 - ballRadius,
@@ -40,7 +15,6 @@ const ball = {
     dx : 4 * (Math.random() * 2 - 1),
     dy : -4
 }
-
 //class de l'objet
 const object = { 
     r : 3,
@@ -55,7 +29,6 @@ const object = {
     srcWidth : 231,
     srcHeight : 101
 }
-
 //matrice logique des objets
 function creatObjects() {
     console.log("he");
@@ -71,7 +44,6 @@ function creatObjects() {
     }
 } 
 creatObjects();
-
 //Pour dessiner les objets
 function drawObjects() {
     for (let i = 0; i < object.r; i++) {
@@ -154,13 +126,15 @@ function drawInfos() {
         ctx.fillText("HARD",295,25);    
     }
 }
-
 //mouvement de la raquette
 document.addEventListener("keydown", function(event){
     if(event.keyCode == 37){
         left = true;
     }else if(event.keyCode == 39){
         right = true;
+    }
+    if (event.keyCode == 82 && (over || win)) {
+        this.location.reload();
     }
 });
 document.addEventListener("keyup", function(event){
@@ -179,13 +153,11 @@ function movePad() {
         pad.x -= pad.dx;
     }
 }
-
 // deplacement de la balle 
 function moveBall() {
     ball.x += ball.dx;
     ball.y += ball.dy;
 }
-
 //collision de la balle avec le mur 
 function ballWallCol() {
     if (ball.x + 21 > canv.width || ball.x + 4 < 0) {
@@ -200,7 +172,6 @@ function ballWallCol() {
         initBall();
     }
 }
-
 //collision de la balle avec la raquette
 function ballPadCol() {
     if (ball.x + 21 < pad.x + pad.width && ball.x + 21 > pad.x && ball.y + 21 < pad.y + pad.height && ball.y + 21 > pad.y) {
@@ -213,7 +184,6 @@ function ballPadCol() {
         ball.dy = -ball.speed * Math.cos(alpha);
     }
 }
-
 //collision de la balle avec les objets
 function ballObjCol() {
     for (let i = 0; i < object.r; i++) {
@@ -231,7 +201,6 @@ function ballObjCol() {
         }
     }
 }
-
 // etat et position initial de la ball
 function initBall() {
     ball.x = canv.width / 2 - ballRadius;
@@ -239,42 +208,46 @@ function initBall() {
     ball.dx = 3 * (Math.random() * 2 - 1);
     ball.dy = -3;
 }
-
 // etat et position initial de la raquette
 function initPad() {
     pad.x = canv.width / 2 - padWidth / 2;
     pad.y = canv.height - padSpace - padHeight;
 }
-
 function leveling() {
     if ((level === 1 && count === 15) || (level === 2 && count === 20)) {
         object.r++;
         creatObjects();
-        ball.speed += 1;
-        score = 0;
+        ball.speed += 0.5;
         initBall();
         initPad();
         level++;
-        chance = 4 - level;
         count = 0;
     }
+    if (level === 3 && count === 25) {
+        win = true;
+    }
+}
+function showOver() {
+    const gameOverIMG = document.getElementById('over');
+    ctx.drawImage(gameOverIMG,0,0,400,500);
 }
 
+function showWin() {
+    const winIMG = document.getElementById('win');
+    ctx.drawImage(winIMG,0,0,400,500);
+}
 //verification de l'etat du jeu
 function gameOver() {
     if (chance <= 0) {
         over = true;
     }
 }
-
-
 function draw() {
     drawInfos();
     drawPad();
     drawBall();
     drawObjects();
 }
-
 function update() {
     movePad();
     moveBall();
@@ -284,13 +257,18 @@ function update() {
     gameOver();
     leveling();
 }
-
 function gameLoop() {
     ctx.drawImage(gameBG,0,0);
     update();
     draw();
     if (!over) {
         requestAnimationFrame(gameLoop);   
+    }
+    else {
+        showOver();
+    }
+    if (win) {
+        showWin();
     }
 }
 gameLoop();

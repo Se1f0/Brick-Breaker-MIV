@@ -1,8 +1,32 @@
+var canv = document.getElementById('Brick') ;
+var ctx = canv.getContext('2d');
+
+var srcXpad = 25;
+var srcYpad = 179;
+var srcWidthPad = 463;
+var srcHeightPad = 101;
+var padWidth = 100;
+var padHeight = 20;
+var padSpace = 50;
+
+var ballRadius = 8.5;
+
+var count = 0;
+var score = 0;
+var level = 1;
+var over = false;
+var win = false;
+
+let chance = 3;
+let left = false;
+let right = false;
+let objects = [];
+
 const gameBG = new Image();
 gameBG.src = "assets/Pack/Background/image1.jpg";
 
 const padIMG = new Image();
-padIMG.src = "assets/Pack/Bats/bat_orange.png";
+padIMG.src = "assets/Pack/Bats/bat_yellow.png";
 
 const ballIMG = new Image();
 ballIMG.src = "assets/Pack/Balls/ball_silver.png";
