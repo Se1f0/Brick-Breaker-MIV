@@ -11,7 +11,7 @@ const ball = {
     x : canv.width / 2 - ballRadius,
     y : pad.y - (ballRadius+12.5),
     radius : ballRadius,
-    speed : 5,
+    speed : 4,
     dx : 4 * (Math.random() * 2 - 1),
     dy : -4
 }
@@ -231,7 +231,6 @@ function showOver() {
     const gameOverIMG = document.getElementById('over');
     ctx.drawImage(gameOverIMG,0,0,400,500);
 }
-
 function showWin() {
     const winIMG = document.getElementById('win');
     ctx.drawImage(winIMG,0,0,400,500);
